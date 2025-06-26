@@ -22,7 +22,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     padding: '8px 12px',
     }));
 
-interface BuildCardProps {
+interface BuildBasketProps {
    item: {
         "Код автозапчасти": number,
         "Наименование": string,
@@ -34,19 +34,23 @@ interface BuildCardProps {
     
 
     onMode: 'admin' | 'client' |'none'; 
-    onDataChange: (data: string[]) => void; // 👈 добавлено
+    onDataChange: (data: string[]) => void; 
+    counter: Record<number, number>;
+    //counterChange:(counter:Record<number, number>)=>void;
+    
   }
-function BuildCard({ item,index,onMode,onDataChange }: BuildCardProps) {
+function BuildBasket({ item,index,onMode,onDataChange,counter }: BuildBasketProps) {
  const [data, setData] = useState<string[]>([]);
+
+
+ 
 
 
 
    const handleAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const key = event.currentTarget.getAttribute('data-key');
-    console.log(key);
-    if (!key) return;   // setData(newData);
-    onDataChange([key]);
-
+    const key = +(event.currentTarget.getAttribute('data-key')||0);
+    
+    //counterChange({ ...counter, [key]: counter[key]+=1 });
    }
 
 
@@ -79,21 +83,24 @@ function BuildCard({ item,index,onMode,onDataChange }: BuildCardProps) {
                 <strong>{key}:</strong> {String(value)}  
               </Typography>
             ))}
+            <Typography>
+                <strong>Количество:</strong> {counter[+Object.values(item)[0]]}
+            </Typography>
             
               <Box sx={{ 
-      display:onMode == "client" ? 'flex' : 'none', 
+      display: 'flex', 
       justifyContent: 'flex-end', 
       mt: 2 
     }}>
-      <Button 
+      {/* <Button 
         data-key={Object.values(item)[0]}
         variant="contained" 
         color="info" 
         size="medium"
         onClick={ handleAdd}
       >
-        Добавить в корзину
-      </Button>
+       +
+      </Button> */}
     </Box>
           </CardContent>
 
@@ -105,4 +112,4 @@ function BuildCard({ item,index,onMode,onDataChange }: BuildCardProps) {
   );
 }
 
-export default BuildCard;
+export default BuildBasket;

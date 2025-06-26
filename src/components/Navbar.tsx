@@ -20,7 +20,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 interface ComponentProps {
     active: string;
     mode:string;
-    onNavigate: (page: 'home' | 'catalog' |'contacts'|'start') => void;    
+    onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
    }
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
@@ -83,40 +83,89 @@ function Navbar({ active,mode,onNavigate } : ComponentProps) {
             </Box>
 
             <Box sx={{ display:mode == "client" ? 'flex' : 'none' }}>        
-            <Button variant={active=="3" ? "contained":"text"} color="info" size="medium" onClick={() => onNavigate('home')}>
+            <Button variant={active=="3" ? "contained":"text"} color="info" size="medium" onClick={() => onNavigate('basket')}>
             Корзина
+            </Button>
+            </Box>
+
+            <Box sx={{ display:(mode == "client")||(mode == "admin") ? 'flex' : 'none' }}>        
+            <Button variant={"outlined"} color="info" size="medium" onClick={() => onNavigate('start')}>
+            Выйти
             </Button>
             </Box>
 
            
 
             </Box>
-            <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
-            <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
-            <MenuIcon />
-            </IconButton>
-            <Drawer
-            anchor="top"
-            open={ open }
-            onClose={toggleDrawer(false)}
-            >
-                <Box>
-                    <Box
-                        sx={{
-                        display: 'flex',
-                        justifyContent: 'flex-end',
-                        }}
-                        >
-                        <IconButton onClick={toggleDrawer(false)}>
-                        <CloseRoundedIcon />
-                        </IconButton>
-                    </Box>
-                    <MenuItem sx={{ backgroundColor: '#0288d1', '&:hover':{backgroundColor: 'lightblue'} }}> Главная </MenuItem>
-                    <MenuItem sx={{'&:hover':{backgroundColor: 'lightblue'}}}>Каталог</MenuItem>
-                    <MenuItem sx={{'&:hover':{backgroundColor: 'lightblue'}}}>Контакты</MenuItem>
-                </Box>
-            </Drawer>
-            </Box>
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+  <IconButton aria-label="Menu button" onClick={toggleDrawer(true)}>
+    <MenuIcon />
+  </IconButton>
+
+  <Drawer anchor="top" open={open} onClose={toggleDrawer(false)}>
+    <Box>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+        }}
+      >
+        <IconButton onClick={toggleDrawer(false)}>
+          <CloseRoundedIcon />
+        </IconButton>
+      </Box>
+      <MenuItem 
+        selected={active === "1"}
+        onClick={() => { onNavigate('home'); toggleDrawer(false)(); }} 
+        sx={{ backgroundColor: active === "1" ? '#0288d1' : undefined, '&:hover': { backgroundColor: 'lightblue' } }}
+      >
+        Главная
+      </MenuItem>
+      <MenuItem 
+        selected={active === "2"}
+        onClick={() => { onNavigate('catalog'); toggleDrawer(false)(); }} 
+        sx={{ backgroundColor: active === "2" ? '#0288d1' : undefined, '&:hover': { backgroundColor: 'lightblue' } }}
+      >
+        Каталог
+      </MenuItem>
+      {mode === "none" && (
+        <MenuItem 
+          selected={active === "3"}
+          onClick={() => { onNavigate('start'); toggleDrawer(false)(); }} 
+          sx={{ backgroundColor: active === "3" ? '#0288d1' : undefined, '&:hover': { backgroundColor: 'lightblue' } }}
+        >
+          Авторизация
+        </MenuItem>
+      )}
+      {mode === "admin" && (
+        <MenuItem 
+          selected={active === "3"}
+          onClick={() => { onNavigate('contacts'); toggleDrawer(false)(); }} 
+          sx={{ backgroundColor: active === "3" ? '#0288d1' : undefined, '&:hover': { backgroundColor: 'lightblue' } }}
+        >
+          Управление товарами
+        </MenuItem>
+      )}
+      {mode === "client" && (
+        <MenuItem 
+          selected={active === "3"}
+          onClick={() => { onNavigate('basket'); toggleDrawer(false)(); }} 
+          sx={{ backgroundColor: active === "3" ? '#0288d1' : undefined, '&:hover': { backgroundColor: 'lightblue' } }}
+        >
+          Корзина
+        </MenuItem>
+      )}
+      {(mode === "client" || mode === "admin") && (
+        <MenuItem 
+          onClick={() => { onNavigate('start'); toggleDrawer(false)(); }} 
+          sx={{ border: '1px solid #0288d1', mt: 1, '&:hover': { backgroundColor: 'lightblue' } }}
+        >
+          Выйти
+        </MenuItem>
+      )}
+    </Box>
+  </Drawer>
+</Box>
         </StyledToolbar>
 
     </Container> 

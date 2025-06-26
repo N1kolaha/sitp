@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
-
+import { Pagination } from '@mui/material';
 const StyledTypography = styled(Typography)(({theme})=>({
     color: 'text.secondary',
     textAlign:'center',
@@ -25,9 +25,31 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     padding: '1px 12px',
     }));
 
+    interface TableProps {
+        onMode: 'admin' | 'client' |'none';  
+        onDataChange: (data: string[]) => void; // 👈 добавлено
 
-function Table() {
+        }
+
+
+       
+        
+
+function Table({onMode,onDataChange}: TableProps) {
  const [data, setData] = useState<any[]>([]);
+
+
+ 
+
+ const itemsPerPage = 8;
+        const [currentPage, setCurrentPage] = useState(1);
+
+ const totalPages = Math.ceil(data.length / itemsPerPage);
+ const startIndex = (currentPage - 1) * itemsPerPage;
+ const paginatedData = data.slice(startIndex, startIndex + itemsPerPage);
+
+
+
    //   const column = 'Цена'; // Можно менять на 'Название', 'Количество', и т.п.
  //const limit = 4;
       useEffect(() => {
@@ -47,23 +69,35 @@ function Table() {
         }} >
 
 <StyledTypography >
-        Мы продаем самый качественный товар от проверенных официальных поставщиков бубубу...
+        Мы продаем самый качественный товар от проверенных официальных поставщиков
 
 </StyledTypography>
 </StyledToolbar>
 <StyledTypography variant='h5' sx={{
     marginBottom:'2%'
 }}>
-         Список ваще всех товаров
+        Каталог нашего магазина
 </StyledTypography>
 
     <Grid container spacing={{ xs: 3, md: 6 }}>
-    {data.map((item, index) => (
-    <Grid key={index} size={{ xs: 12, md: 12 }} >
-        <BuildCard item={ item } index={index}/>
+    {paginatedData.map((item, index) => (
+    <Grid key={item["Код автозапчасти"] || index}  size={{ xs: 12, md: 12 }} >
+        <BuildCard item={ item } index={index} onMode={onMode} onDataChange={onDataChange}/>
     </Grid>
     ))}
     </Grid>
+    <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+      <Pagination
+        count={totalPages}
+        page={currentPage}
+        onChange={(_, value) => {
+            setCurrentPage(value);
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Прокрутка вверх
+        }}
+        color="primary"
+      />
+    </Box>
+
     </Container>
     );
    }

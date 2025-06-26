@@ -25,11 +25,24 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     padding: '1px 12px',
     }));
 
+    interface ContentProps {
 
-function Content() {
+    onMode: 'admin' | 'client' |'none'; 
+    onDataChange: (data: string[]) => void; // 👈 добавлено
+
+ }
+
+
+
+
+function Content({onMode,onDataChange }:ContentProps) {
  const [data, setData] = useState<any[]>([]);
+
+ 
+
+
    //   const column = 'Цена'; // Можно менять на 'Название', 'Количество', и т.п.
- const limit = 4;
+ const limit = 6;
       useEffect(() => {
         const url = `http://localhost:3001/latest?limit=${limit}`;
     fetch(url)
@@ -59,7 +72,7 @@ function Content() {
     <Grid container spacing={{ xs: 3, md: 6 }}>
     {data.map((item, index) => (
     <Grid key={index} size={{ xs: 12, md: 6 }} >
-        <BuildCard item={ item } index={index}/>
+        <BuildCard  item={ item } index={index} onMode={onMode} onDataChange={onDataChange}/>
     </Grid>
     ))}
     </Grid>

@@ -16,7 +16,7 @@ import Button from '@mui/material/Button';
 
 
 interface startProps {
-    onNavigate: (page: 'home' | 'catalog' |'contacts'|'start') => void;    
+    onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
     onMode:(mode: 'client'|'admin'|'none')   => void;
   }
 
@@ -90,7 +90,7 @@ function Startpage  ({ onNavigate,onMode }: startProps)  {
       fullWidth
     />
     <TextField
-      label="Введите логин"
+      label="Введите пароль"
       type="password"
     placeholder="Пароль"
       value={password}
