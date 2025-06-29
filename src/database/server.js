@@ -42,6 +42,69 @@ app.get('/catalog', (req, res) => {
 });
 
 
+
+app.get('/client', (req, res) => {
+  const login = String(req.query.login);
+  const password = String(req.query.password);
+
+  const sql = "SELECT Пароль FROM Клиенты WHERE Логин = ?";
+  db.get(sql, [login], (err, row) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (!row) {
+      // Логин не найден
+      console.log('Логин не найден');
+
+      return res.json(0);
+    }
+
+    if (row.Пароль === password) {
+      // Логин и пароль совпадают
+      console.log('Логин и пароль совпадают');
+
+      return res.json(1);
+    } else {
+      // Логин есть, но пароль неверный
+      console.log(' Логин есть, но пароль неверный');
+
+      return res.json(-1);
+    }
+  });
+});
+
+
+
+
+app.get('/registr', (req, res) => {
+  const login = String(req.query.login);
+  const password = String(req.query.password);
+
+  const sql = "INSERT INTO Клиенты (Логин,Пароль) VALUES(?,?)";
+  db.run(sql, [login,password], (err, row) => {
+    if (err) {
+      console.log('Ошибка регистрации');
+
+      return res.status(500).json({ error: err.message });
+    }
+
+    if (this.changes === 0) {
+      console.log('Добавление не произошло');
+      return res.status(404).json({ message: 'Ошибка при добавлении' });
+    }
+    console.log('Добавление успешно');
+    console.log('Изменено строк:', this.changes);
+
+    res.json({ success: true, updatedRows: this.changes });
+  });
+});
+
+
+
+
+
+
 app.get('/search', (req, res) => {
   const code = parseInt(req.query.code,10);
   // const safeLimit = Number.isNaN(limit) || limit <= 0 ? 10 : limit;
