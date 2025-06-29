@@ -49,16 +49,71 @@ function Startpage  ({ onNavigate,onMode }: startProps)  {
         let newMode: 'admin' | 'client' | 'none' = 'none';
 
         if (login === "admin") {
-          newMode = "admin";
-        } else if (login === "client") {
-          newMode = "client";
+          setMode("admin");
+          onMode("admin");   
+
+          onNavigate('home');
+
+        } else if (/^[a-zA-Z0-9]+$/.test(login)) {
+
+
+          const url = `http://localhost:3001/client?login=${encodeURIComponent(login)}&password=${encodeURIComponent(password)}`; 
+           fetch(url)
+           .then(response => {
+            if (!response.ok) {
+              throw new Error(`Сервер ответил статусом ${response.status}`);
+            }
+            return response.json();       
+          })
+          .then(result => {
+           
+            if (result === 1) {
+              console.log("Успешный вход");
+              setMode("client"); 
+          onMode("client");   
+              onNavigate('home');
+           
+              newMode = "client";
+              console.log(mode);
+
+
+            } else if (result === -1) {
+              alert("Неверный пароль");
+              console.log("Неверный пароль");
+            } else if (result === 0) {
+
+
+
+              const url = `http://localhost:3001/registr?login=${encodeURIComponent(login)}&password=${encodeURIComponent(password)}`; 
+              fetch(url, { method: 'GET' })
+              .then(res => res.json())
+              .then(data=>{
+                
+
+              })
+              .catch((err) => console.error('Ошибка регистрации клиента:', err));
+
+
+
+
+
+
+
+             alert("Успешно регистрация");
+            }
+          })
+          .catch(err => console.error('Ошибка загрузки пользователя', err));
+
+
+
+          //newMode = "client";
         } else {
             return;
         }
-      
-        setMode(newMode);     
-        onMode(newMode);    
-        onNavigate('home');        
+      //  console.log(newMode);
+       // setMode(newMode);     
+      //  onMode(newMode);    
+                
         
       };
 

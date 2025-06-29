@@ -35,10 +35,11 @@ interface BasketProps {
   onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
   onMode: 'admin' | 'client' |'none';  
   cart: string[];
+  cartChange:(cart:string)=>void;
   
   }
 
-function Basket({onNavigate,onMode,cart}: BasketProps) {
+function Basket({onNavigate,onMode,cart,cartChange}: BasketProps) {
 
 
     const onDataChange=(key:string[])=>{
@@ -51,9 +52,9 @@ function Basket({onNavigate,onMode,cart}: BasketProps) {
  const [price, setPrice] = useState(0);
 
 
- const onCounterChange = (count:Record<number, number>)=>{
-    setCounter(count);
-    console.log(counter);
+ const onCounterChange = (count:number)=>{
+   cartChange(String(count));
+    console.log(count);
  }
 
  
@@ -182,7 +183,7 @@ function Basket({onNavigate,onMode,cart}: BasketProps) {
     <Grid container spacing={{ xs: 3, md: 6 }}>
     {data.map((item, index) => (
     <Grid key={item["Код автозапчасти"] || index}  size={{ xs: 12, md: 12 }} >
-        <BuildBasket item={ item } index={index} onMode={onMode} onDataChange={onDataChange} counter={counter} />
+        <BuildBasket item={ item } index={index} onMode={onMode} onDataChange={onDataChange} counter={counter} counterChange={onCounterChange} />
     </Grid>
     ))}
     </Grid>
