@@ -36,10 +36,10 @@ interface BuildBasketProps {
     onMode: 'admin' | 'client' |'none'; 
     onDataChange: (data: string[]) => void; 
     counter: Record<number, number>;
-    //counterChange:(counter:Record<number, number>)=>void;
+    counterChange:(counter: number)=>void;
     
   }
-function BuildBasket({ item,index,onMode,onDataChange,counter }: BuildBasketProps) {
+function BuildBasket({ item,index,onMode,onDataChange,counter,counterChange }: BuildBasketProps) {
  const [data, setData] = useState<string[]>([]);
 
 
@@ -50,7 +50,7 @@ function BuildBasket({ item,index,onMode,onDataChange,counter }: BuildBasketProp
    const handleAdd = (event: React.MouseEvent<HTMLButtonElement>) => {
     const key = +(event.currentTarget.getAttribute('data-key')||0);
     
-    //counterChange({ ...counter, [key]: counter[key]+=1 });
+    counterChange(key);
    }
 
 
@@ -92,15 +92,15 @@ function BuildBasket({ item,index,onMode,onDataChange,counter }: BuildBasketProp
       justifyContent: 'flex-end', 
       mt: 2 
     }}>
-      {/* <Button 
+      <Button 
         data-key={Object.values(item)[0]}
         variant="contained" 
         color="info" 
         size="medium"
         onClick={ handleAdd}
       >
-       +
-      </Button> */}
+       Убрать из корзины
+      </Button>
     </Box>
           </CardContent>
 
