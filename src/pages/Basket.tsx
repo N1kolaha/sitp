@@ -36,10 +36,14 @@ interface BasketProps {
   onMode: 'admin' | 'client' |'none';  
   cart: string[];
   cartChange:(cart:string)=>void;
+  login:string;
+  
+
+
   
   }
 
-function Basket({onNavigate,onMode,cart,cartChange}: BasketProps) {
+function Basket({onNavigate,onMode,cart,cartChange,login}: BasketProps) {
 
 
     const onDataChange=(key:string[])=>{
@@ -57,7 +61,19 @@ function Basket({onNavigate,onMode,cart,cartChange}: BasketProps) {
     console.log(count);
  }
 
- 
+ const handleBuy=()=>{
+  const tags = cart;
+  const tagString = tags.join(',');
+  const log = login;
+  const url = `http://localhost:3001/addBuy?parts=${encodeURIComponent(tagString)}&login=${log}`;
+  fetch(url, { method: 'GET' })
+  .then(res => res.json())
+  .then(data=>{
+    
+
+  })
+  .catch((err) => console.error('Ошибка добавления покупки:', err));
+ }
 
 
  useEffect(() => {
@@ -169,8 +185,11 @@ function Basket({onNavigate,onMode,cart,cartChange}: BasketProps) {
        Общая стоимость товаров в корзине: {price}
 
 </StyledTypography>
-<Button variant="contained" color="info" size="medium"  sx={{
+<Button variant="contained" color="info" size="medium"
+  onClick={handleBuy}
+  sx={{
         marginLeft:'35%'
+
      }}>
            Оформить
             </Button>
