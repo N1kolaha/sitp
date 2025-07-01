@@ -20,6 +20,10 @@ const App = () => {
   const [page, setPage] = useState<'start'|'home' | 'catalog' | 'contacts'|'basket'>('start');
   const [mode, setMode] = useState<'admin' | 'client' |'none'>('none');
   const [cartItems, setCartItems] = useState<string[]>([]);
+  const [cartBuy, setCartBuy] = useState<string[]>([]);
+
+   const [price, setPrice] = useState(0);
+    const [login, setLogin] = useState('');
 
 
   useEffect(() => {
@@ -37,17 +41,26 @@ const App = () => {
    // console.log(cartItems);
   };
 
+  const removeFromCart = (itemToRemove: string) => {
+    setCartItems(prevItems => prevItems.filter(item => item !== itemToRemove));
+  };
+
+  const handleLogin = (login:string)=>{
+    setLogin(login);
+  }
+
+
   return (
     <div>
     
 
        <>      
-       {page === 'start' && <Startpage onNavigate={setPage} onMode={setMode}/>}
+       {page === 'start' && <Startpage onNavigate={setPage} onMode={setMode} onLogin={handleLogin}/>}
 
         {page === 'home' && <Home onNavigate={setPage} onMode={mode} onDataChange={handleBasket}/>}
         {page === 'catalog' && <Catalog onNavigate={setPage} onMode={mode} onDataChange={handleBasket}/>}
         {page === 'contacts' && <Contacts onNavigate={setPage} onMode={mode}/>}
-        {page === 'basket' && <Basket onNavigate={setPage} onMode={mode} cart={cartItems}/>}
+        {page === 'basket' && <Basket onNavigate={setPage} onMode={mode} cart={cartItems} cartChange={removeFromCart} login={login}/>}
 
 
         </>
