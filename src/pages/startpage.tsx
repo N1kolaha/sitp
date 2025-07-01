@@ -18,6 +18,7 @@ import Button from '@mui/material/Button';
 interface startProps {
     onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
     onMode:(mode: 'client'|'admin'|'none')   => void;
+    onLogin:(login:string) => void;
   }
 
   const StyledTypography = styled(Typography)(({theme})=>({
@@ -37,7 +38,7 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     borderColor: theme.palette.divider,
     padding: '1px 12px',
     }));
-function Startpage  ({ onNavigate,onMode }: startProps)  {
+function Startpage  ({ onNavigate,onMode,onLogin }: startProps)  {
     const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const [mode, setMode] = useState<'admin' | 'client' |'none'>('none');
@@ -48,7 +49,7 @@ function Startpage  ({ onNavigate,onMode }: startProps)  {
     const handleLogin = () => {
         let newMode: 'admin' | 'client' | 'none' = 'none';
 
-        if (login === "admin") {
+        if ((login === "admin")&&(password=='admin')) {
           setMode("admin");
           onMode("admin");   
 
@@ -69,6 +70,7 @@ function Startpage  ({ onNavigate,onMode }: startProps)  {
            
             if (result === 1) {
               console.log("Успешный вход");
+              onLogin(login);
               setMode("client"); 
           onMode("client");   
               onNavigate('home');
