@@ -219,6 +219,76 @@ app.get('/add', (req, res) => {
 
 
 
+app.get('/addBuy', async (req, res) => {
+  try {
+    const login = String(req.query.login);
+    const tagsString = req.query.parts;
+    if (!tagsString) {
+      return res.status(400).json({ error: "Не переданы коды автозапчастей" });
+    }
+    const tagsArray = tagsString.split(',');
+    const partCounts = {};
+    tagsArray.forEach(code => {
+      partCounts[code] = (partCounts[code] || 0) + 1;
+    });
+
+    const currentDate = new Date().toISOString().slice(0, 10);
+    const sqlInsert = `INSERT INTO Покупки (Логин, "Код автозапчасти", Количество, Дата) VALUES (?, ?, ?, ?)`;
+    const sqlCheck = `SELECT "Количество в наличии" FROM Автозапчасти WHERE "Код автозапчасти" = ?`;
+    const sqlUpdateQuantity = `UPDATE Автозапчасти SET "Количество в наличии" = "Количество в наличии" - ? WHERE "Код автозапчасти" = ?`;
+    const skippedParts = [];
+
+    for (const [code, count] of Object.entries(partCounts)) {
+      const row = await new Promise((resolve, reject) => {
+        db.get(sqlCheck, [code], (err, row) => {
+          if (err) reject(err);
+          else resolve(row);
+        });
+      });
+
+      if (!row) {
+        console.warn(`Автозапчасть с кодом ${code} не найдена`);
+        skippedParts.push({ code, reason: "не найдена" });
+        continue;  // пропускаем
+      }
+
+      if (count > row["Количество в наличии"]) {
+        console.warn(`Недостаточно автозапчастей с кодом ${code}. В наличии: ${row["Количество в наличии"]}, запрошено: ${count}`);
+        skippedParts.push({ code, reason: "недостаточно в наличии" });
+        continue;  
+      }
+
+      await new Promise((resolve, reject) => {
+        db.run(sqlInsert, [login, code, count, currentDate], function(err) {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+
+
+      await new Promise((resolve, reject) => {
+        db.run(sqlUpdateQuantity, [count, code], function(err) {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      console.log(`Покупка добавлена и количество обновлено: логин=${login}, код=${code}, количество=${count}`);    }
+
+    res.json({ 
+      success: true, 
+      message: 'Покупки успешно добавлены', 
+      skipped: skippedParts // можно вернуть список пропущенных для информации 
+    });
+
+  } catch (error) {
+    console.error("Ошибка при добавлении покупки:", error);
+    res.status(500).json({ error: "Внутренняя ошибка сервера" });
+  }
+});
+
+
 
 
 app.listen(PORT, () => {
