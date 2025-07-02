@@ -11,13 +11,15 @@ import Catalog from "./pages/Catalog"
 import Contacts from "./pages/Contacts"
 import Startpage from "./pages/startpage"
 import Basket from "./pages/Basket"
+import Buys from "./pages/Buys"
+
 
 
 
 
 
 const App = () => {
-  const [page, setPage] = useState<'start'|'home' | 'catalog' | 'contacts'|'basket'>('start');
+  const [page, setPage] = useState<'start'|'home' | 'catalog' | 'contacts'|'basket'|'buys'>('start');
   const [mode, setMode] = useState<'admin' | 'client' |'none'>('none');
   const [cartItems, setCartItems] = useState<string[]>([]);
   const [cartBuy, setCartBuy] = useState<string[]>([]);
@@ -61,6 +63,7 @@ const App = () => {
         {page === 'catalog' && <Catalog onNavigate={setPage} onMode={mode} onDataChange={handleBasket}/>}
         {page === 'contacts' && <Contacts onNavigate={setPage} onMode={mode}/>}
         {page === 'basket' && <Basket onNavigate={setPage} onMode={mode} cart={cartItems} cartChange={removeFromCart} login={login}/>}
+        {page === 'buys' && <Buys onNavigate={setPage} onMode={mode} login={login}/>}
 
 
         </>
