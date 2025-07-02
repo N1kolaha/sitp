@@ -117,6 +117,28 @@ app.get('/search', (req, res) => {
    });
  });
 
+ app.get('/Buys', (req, res) => {
+  const login = String(req.query.login);
+
+  const sql = `
+    SELECT
+      Автозапчасти.Наименование,
+      Покупки."Код автозапчасти", 
+      Покупки.Количество, 
+      Покупки.Дата,
+      Автозапчасти.Цена
+    FROM Покупки
+    JOIN Автозапчасти ON Покупки."Код автозапчасти" = Автозапчасти."Код автозапчасти"
+    WHERE Покупки.Логин = ?
+  `;
+
+  db.all(sql, [login], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(rows);
+  });
+});
 
 
 
