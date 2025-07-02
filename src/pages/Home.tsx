@@ -6,8 +6,8 @@ import BuildCard from "../components/BuildCard";
 import Content from "../components/Content";
 
 interface HomeProps {
-  onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
-  onMode: 'admin' | 'client' |'none';  
+  onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket'|'buys') => void; 
+    onMode: 'admin' | 'client' |'none';  
   onDataChange: (data: string[]) => void; // 👈 добавлено
 
 }

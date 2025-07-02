@@ -21,8 +21,8 @@ const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 interface HomeProps {
-  onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
-  onMode: 'admin' | 'client' |'none';  
+  onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket'|'buys') => void; 
+    onMode: 'admin' | 'client' |'none';  
    
     
   }

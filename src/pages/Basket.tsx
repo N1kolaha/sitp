@@ -32,8 +32,8 @@ const StyledToolbar = styled(Toolbar)(({ theme }) => ({
 
 
 interface BasketProps {
-  onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
-  onMode: 'admin' | 'client' |'none';  
+  onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket'|'buys') => void;
+     onMode: 'admin' | 'client' |'none';  
   cart: string[];
   cartChange:(cart:string)=>void;
   login:string;

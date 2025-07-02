@@ -2,8 +2,8 @@ import Navbar from "../components/Navbar";
 import Table from "../components/Table"
 
 interface HomeProps {
-  onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
-  onMode: 'admin' | 'client' |'none';  
+  onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket'|'buys') => void;
+     onMode: 'admin' | 'client' |'none';  
   onDataChange: (data: string[]) => void; // 👈 добавлено
 
   }

@@ -16,7 +16,7 @@ import Button from '@mui/material/Button';
 
 
 interface startProps {
-    onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
+    onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket'|'buys') => void;    
     onMode:(mode: 'client'|'admin'|'none')   => void;
     onLogin:(login:string) => void;
   }
@@ -101,7 +101,13 @@ function Startpage  ({ onNavigate,onMode,onLogin }: startProps)  {
 
 
 
-             alert("Успешно регистрация");
+             alert("Успешная регистрация");
+             onLogin(login);
+             setMode("client"); 
+         onMode("client");   
+             onNavigate('home');
+          
+             newMode = "client";
             }
           })
           .catch(err => console.error('Ошибка загрузки пользователя', err));
