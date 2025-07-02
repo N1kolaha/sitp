@@ -20,8 +20,8 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 interface ComponentProps {
     active: string;
     mode:string;
-    onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket') => void;    
-   }
+    onNavigate: (page: 'home' | 'catalog' |'contacts'|'start'|'basket'|'buys') => void; 
+     }
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
     display: 'flex',
@@ -88,6 +88,12 @@ function Navbar({ active,mode,onNavigate } : ComponentProps) {
             </Button>
             </Box>
 
+            <Box sx={{ display:mode == "client" ? 'flex' : 'none' }}>        
+            <Button variant={active=="4" ? "contained":"text"} color="info" size="medium" onClick={() => onNavigate('buys')}>
+            Покупки
+            </Button>
+            </Box>
+
             <Box sx={{ display:(mode == "client")||(mode == "admin") ? 'flex' : 'none' }}>        
             <Button variant={"outlined"} color="info" size="medium" onClick={() => onNavigate('start')}>
             Выйти
@@ -146,6 +152,7 @@ function Navbar({ active,mode,onNavigate } : ComponentProps) {
           Управление товарами
         </MenuItem>
       )}
+
       {mode === "client" && (
         <MenuItem 
           selected={active === "3"}
@@ -155,6 +162,7 @@ function Navbar({ active,mode,onNavigate } : ComponentProps) {
           Корзина
         </MenuItem>
       )}
+
       {(mode === "client" || mode === "admin") && (
         <MenuItem 
           onClick={() => { onNavigate('start'); toggleDrawer(false)(); }} 
