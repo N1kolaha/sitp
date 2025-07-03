@@ -31,12 +31,13 @@ interface BuildCardProps {
 
         };
     index: number;
+    buys:boolean;
     
 
     onMode: 'admin' | 'client' |'none'; 
     onDataChange: (data: string[]) => void; // 👈 добавлено
   }
-function BuildCard({ item,index,onMode,onDataChange }: BuildCardProps) {
+function BuildCard({ item,index,onMode,onDataChange,buys }: BuildCardProps) {
  const [data, setData] = useState<string[]>([]);
 
 
@@ -81,7 +82,7 @@ function BuildCard({ item,index,onMode,onDataChange }: BuildCardProps) {
             ))}
             
               <Box sx={{ 
-      display:onMode == "client" ? 'flex' : 'none', 
+      display: (onMode == "client") &&(buys==false) ? 'flex' : 'none', 
       justifyContent: 'flex-end', 
       mt: 2 
     }}>
