@@ -72,7 +72,7 @@ function Content({onMode,onDataChange }:ContentProps) {
     <Grid container spacing={{ xs: 3, md: 6 }}>
     {data.map((item, index) => (
     <Grid key={index} size={{ xs: 12, md: 6 }} >
-        <BuildCard  item={ item } index={index} onMode={onMode} onDataChange={onDataChange}/>
+        <BuildCard  item={ item } index={index} onMode={onMode} onDataChange={onDataChange} buys={false}/>
     </Grid>
     ))}
     </Grid>
