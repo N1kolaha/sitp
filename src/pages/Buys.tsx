@@ -44,7 +44,7 @@ interface BuysProps {
   }
 
 function Buys({onNavigate,onMode,login}: BuysProps) {
-onMode="admin";
+//onMode="admin";
      const [data, setData] = useState<any[]>([]);
     
      const onDataChange=()=>{
@@ -75,7 +75,7 @@ onMode="admin";
 
     return (
       <div>
-           <Navbar active="3" mode={onMode} onNavigate={onNavigate}/>
+           <Navbar active="4" mode={onMode} onNavigate={onNavigate}/>
            <Container maxWidth="xl">
         <StyledToolbar sx={{
             marginBottom:'1%'
