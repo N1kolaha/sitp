@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/sitp/static/css/main.31d6cfe0.css",
+    "main.js": "/sitp/static/js/main.f9d26939.js",
+    "static/js/453.2523035f.chunk.js": "/sitp/static/js/453.2523035f.chunk.js",
+    "index.html": "/sitp/index.html",
+    "main.f9d26939.js.map": "/sitp/static/js/main.f9d26939.js.map",
+    "453.2523035f.chunk.js.map": "/sitp/static/js/453.2523035f.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.31d6cfe0.css",
+    "static/js/main.f9d26939.js"
+  ]
+}
