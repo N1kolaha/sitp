@@ -82,7 +82,7 @@ function Table({onMode,onDataChange}: TableProps) {
     <Grid container spacing={{ xs: 3, md: 6 }}>
     {paginatedData.map((item, index) => (
     <Grid key={item["Код автозапчасти"] || index}  size={{ xs: 12, md: 12 }} >
-        <BuildCard item={ item } index={index} onMode={onMode} onDataChange={onDataChange}/>
+        <BuildCard item={ item } index={index} onMode={onMode} onDataChange={onDataChange} buys={false}/>
     </Grid>
     ))}
     </Grid>
