@@ -1,0 +1,29 @@
+﻿name: React CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout репозитория
+        uses: actions/checkout@v3
+
+      - name: 🟢 Установка Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: 📦 Установка зависимостей
+        run: npm install
+
+      - name: 🔨 Сборка проекта
+        run: npm run build
+
+      - name: ✅ Запуск тестов
+        run: npm test -- --watchAll=false
